@@ -1,26 +1,26 @@
 #!/bin/python3/n
-''' dd '''
 # -*- coding: utf-8 -*-
 # alien_invasion.py
 # @author 刘秋
 # @email lq@aqiu.info
 # @description da
 # @created 2019-08-16T09:18:39.584Z+08:00
-# @last-modified 2019-08-16T11:01:54.033Z+08:00
+# @last-modified 2019-08-16T11:06:32.045Z+08:00
 #
 
 import sys
 import pygame
+from settings import Settings
 
 
 def run_game():
     ''' 游戏开始了'''
     #初始化游戏并创建一个屏幕对象
     pygame.init()
-    screen = pygame.display.set_mode((1200, 800))
+    ai_settings = Settings()
+    screen = pygame.display.set_mode(
+        (ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("Alien Invasion")
-    # 设置颜色
-    bg_color = (230, 230, 230)
 
     # 开始游戏的主循环
     while True:
@@ -31,7 +31,7 @@ def run_game():
                 #结束 关闭界面  参数 0   不写报错
                 sys.exit(0)
         # 每次循环时都重绘屏幕
-        screen.fill(bg_color)
+        screen.fill(ai_settings.bg_color)
         #让最近绘制的屏幕可见
         pygame.display.flip()
 
