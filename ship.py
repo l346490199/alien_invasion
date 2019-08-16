@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 飞船的类
 # @created 2019-08-16T11:21:33.165Z+08:00
-# @last-modified 2019-08-16T15:16:39.475Z+08:00
+# @last-modified 2019-08-16T16:14:09.317Z+08:00
 #
 
 import pygame
@@ -39,17 +39,28 @@ class Ship():
 
     def update(self):
         '''根据移动标识调整飞船位置'''
-        if self.moving_right and self.rect.right < self.screen_rect.right:
+        if self.moving_right:
             self.center += self.ai_settings.ship_speed_factor
-        if self.moving_left and self.rect.left > 0:
+            if self.center > self.ai_settings.screen_width:
+                self.center = 1
+        if self.moving_left:
             self.center -= self.ai_settings.ship_speed_factor
+            if self.center < 0:
+                self.center = self.ai_settings.screen_width-1
         if self.moving_down:
             self.botto += self.ai_settings.ship_speed_factor
+            if self.botto > self.ai_settings.screen_height:
+                self.botto = 1
         if self.moving_up:
             self.botto -= self.ai_settings.ship_speed_factor
-        self.rect.bottom = self.botto
+            if self.botto < 0:
+                self.botto = self.ai_settings.screen_height-1
+        self.get_update(self.center, self.botto)
 
-        self.rect.centerx = self.center
+    def get_update(self, center, botto):
+        ''' 修改位置条件'''
+        self.rect.bottom = botto
+        self.rect.centerx = center
 
     def blitme(self):
         '''在指定位置位置飞船'''
