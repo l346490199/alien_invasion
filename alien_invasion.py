@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 开始的地方
 # @created 2019-08-16T09:18:39.584Z+08:00
-# @last-modified 2019-08-16T12:01:47.226Z+08:00
+# @last-modified 2019-08-16T13:35:48.309Z+08:00
 #
 
 import pygame
@@ -29,7 +29,7 @@ def run_game():
     # 开始游戏的主循环
     while True:
 
-        gf.check_events()
+        gf.check_events(ship)
         gf.update_screen(ai_settings, screen, ship)
 
 
