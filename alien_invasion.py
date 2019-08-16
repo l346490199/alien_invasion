@@ -5,13 +5,14 @@
 # @email lq@aqiu.info
 # @description 开始的地方
 # @created 2019-08-16T09:18:39.584Z+08:00
-# @last-modified 2019-08-16T11:54:18.936Z+08:00
+# @last-modified 2019-08-16T12:01:47.226Z+08:00
 #
 
 import pygame
+
+import game_functions as gf
 from settings import Settings
 from ship import Ship
-import game_functions as gf
 
 
 def run_game():
@@ -29,11 +30,7 @@ def run_game():
     while True:
 
         gf.check_events()
-        # 每次循环时都重绘屏幕
-        screen.fill(ai_settings.bg_color)
-        ship.blitme()
-        #让最近绘制的屏幕可见
-        pygame.display.flip()
+        gf.update_screen(ai_settings, screen, ship)
 
 
 run_game()
