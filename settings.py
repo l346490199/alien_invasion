@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 参数设置
 # @created 2019-08-16T10:14:09.086Z+08:00
-# @last-modified 2019-08-16T11:37:22.419Z+08:00
+# @last-modified 2019-08-16T15:19:45.161Z+08:00
 #
 
 
@@ -17,3 +17,5 @@ class Settings():
         self.screen_width = 1200
         self.screen_height = 800
         self.bg_color = (230, 230, 230)
+        self.ship_speed_factor = 2
+        

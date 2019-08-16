@@ -307,6 +307,7 @@ __pycache__/
 *.json
 #python dir
 .pytest_cache
+.vscode
 
 # Cake - Uncomment if you are using it
 # tools/**
