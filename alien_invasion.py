@@ -3,14 +3,15 @@
 # alien_invasion.py
 # @author 刘秋
 # @email lq@aqiu.info
-# @description da
+# @description 开始的地方
 # @created 2019-08-16T09:18:39.584Z+08:00
-# @last-modified 2019-08-16T11:06:32.045Z+08:00
+# @last-modified 2019-08-16T11:39:02.735Z+08:00
 #
 
 import sys
 import pygame
 from settings import Settings
+from ship import Ship
 
 
 def run_game():
@@ -22,6 +23,8 @@ def run_game():
         (ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("Alien Invasion")
 
+    # 创建一艘飞船
+    ship = Ship(screen)
     # 开始游戏的主循环
     while True:
 
@@ -32,6 +35,7 @@ def run_game():
                 sys.exit(0)
         # 每次循环时都重绘屏幕
         screen.fill(ai_settings.bg_color)
+        ship.blitme()
         #让最近绘制的屏幕可见
         pygame.display.flip()
 
