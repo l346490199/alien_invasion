@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 飞船的类
 # @created 2019-08-16T11:21:33.165Z+08:00
-# @last-modified 2019-08-16T16:14:09.317Z+08:00
+# @last-modified 2019-08-16T16:21:30.539Z+08:00
 #
 
 import pygame
@@ -38,29 +38,29 @@ class Ship():
         self.botto = float(self.rect.bottom)
 
     def update(self):
-        '''根据移动标识调整飞船位置'''
+        '''根据移动标识调整飞船位置-计算'''
         if self.moving_right:
             self.center += self.ai_settings.ship_speed_factor
-            if self.center > self.ai_settings.screen_width:
-                self.center = 1
         if self.moving_left:
             self.center -= self.ai_settings.ship_speed_factor
-            if self.center < 0:
-                self.center = self.ai_settings.screen_width-1
         if self.moving_down:
             self.botto += self.ai_settings.ship_speed_factor
-            if self.botto > self.ai_settings.screen_height:
-                self.botto = 1
         if self.moving_up:
             self.botto -= self.ai_settings.ship_speed_factor
-            if self.botto < 0:
-                self.botto = self.ai_settings.screen_height-1
-        self.get_update(self.center, self.botto)
+        self.__get_update()
+        self.rect.bottom = self.botto
+        self.rect.centerx = self.center
 
-    def get_update(self, center, botto):
+    def __get_update(self):
         ''' 修改位置条件'''
-        self.rect.bottom = botto
-        self.rect.centerx = center
+        if self.center > self.ai_settings.screen_width:
+            self.center = 1
+        if self.center < 0:
+            self.center = self.ai_settings.screen_width - 1
+        if self.botto > self.ai_settings.screen_height:
+            self.botto = 1
+        if self.botto < 0:
+            self.botto = self.ai_settings.screen_height - 1
 
     def blitme(self):
         '''在指定位置位置飞船'''
