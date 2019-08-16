@@ -5,13 +5,13 @@
 # @email lq@aqiu.info
 # @description 开始的地方
 # @created 2019-08-16T09:18:39.584Z+08:00
-# @last-modified 2019-08-16T11:39:02.735Z+08:00
+# @last-modified 2019-08-16T11:54:18.936Z+08:00
 #
 
-import sys
 import pygame
 from settings import Settings
 from ship import Ship
+import game_functions as gf
 
 
 def run_game():
@@ -28,11 +28,7 @@ def run_game():
     # 开始游戏的主循环
     while True:
 
-        # 监视键盘和鼠标 事件
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                #结束 关闭界面  参数 0   不写报错
-                sys.exit(0)
+        gf.check_events()
         # 每次循环时都重绘屏幕
         screen.fill(ai_settings.bg_color)
         ship.blitme()
