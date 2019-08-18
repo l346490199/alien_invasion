@@ -5,15 +5,15 @@
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
-# @last-modified 2019-08-16T16:28:13.974Z+08:00
+# @last-modified 2019-08-18T10:59:59.525Z+08:00
 #
 
 import sys
 
 import pygame
+from bullet import Bullet
 
-
-def check_events(ship):
+def check_events(ai_settings, screen, ship, bullets):
     '''响应按键和鼠标事件'''
     # 监视键盘和鼠标 事件
     for event in pygame.event.get():
@@ -48,8 +48,9 @@ def check_keydown_events(event, ship):
         ship.moving_up = True
     if event.key == pygame.K_DOWN:
         ship.moving_down = True
+    
 
-def update_screen(ai_settings, screen, ship):
+def update_screen(ai_settings, screen, ship, bullets):
     ''' 更新屏幕上的图像，并切换到新屏幕'''
     # 每次循环时都重绘屏幕
     screen.fill(ai_settings.bg_color)
