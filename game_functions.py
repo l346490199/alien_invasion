@@ -5,7 +5,8 @@
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
-# @last-modified 2019-08-18T11:44:31.175Z+08:00
+# @last-modified 2019-08-18T12:13:26.501Z+08:00
+
 #
 
 import sys
@@ -39,6 +40,8 @@ def check_keyup_events(event, ship):
         ship.moving_up = False
     if event.key == pygame.K_DOWN:
         ship.moving_down = False
+    if event.key == pygame.K_q:
+        sys.exit(0)
 
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
