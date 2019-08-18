@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 开始的地方
 # @created 2019-08-16T09:18:39.584Z+08:00
-# @last-modified 2019-08-18T11:37:16.424Z+08:00
+# @last-modified 2019-08-18T13:33:26.254Z+08:00
 #
 
 import pygame
@@ -36,16 +36,11 @@ def run_game():
     while True:
 
         gf.check_events(ai_settings, screen, ship, bullets)
-        
+
         # 飞船移动
         ship.update()
-        bullets.update()
+        gf.update_bullets(bullets)
         gf.update_screen(ai_settings, screen, ship, bullets)
 
-        # 删除已经消失的子弹
-        for bullet in bullets.copy():
-            if bullet.rect.bottom <= 0:
-                bullets.remove(bullet)
-                print(len(bullets))
 
 run_game()

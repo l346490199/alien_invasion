@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
-# @last-modified 2019-08-18T12:13:26.501Z+08:00
+# @last-modified 2019-08-18T13:37:13.441Z+08:00
 #
 
 import sys
@@ -55,6 +55,12 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         ship.moving_down = True
     if event.key == pygame.K_SPACE:
         #按下空格生成一个子弹，并将其加入到编组bullets中
+        fire_bullet(bullets, ai_settings, screen, ship)
+
+def fire_bullet(bullets, ai_settings, screen, ship):
+    ''' 如果还没有达到上限，就发射一颗子弹'''
+    #按下空格生成一个子弹，并将其加入到编组bullets中
+    if len(bullets) < ai_settings.bullet_allowed:
         new_bullet = Bullet(ai_settings, screen, ship)
         bullets.add(new_bullet)
 
@@ -70,3 +76,14 @@ def update_screen(ai_settings, screen, ship, bullets):
     ship.blitme()
     #让最近绘制的屏幕可见
     pygame.display.flip()
+
+
+def update_bullets(bullets):
+    ''' 更新子弹位置，并删除已消失的子弹'''
+    # 子弹移动
+    bullets.update()
+    # 删除已经消失的子弹
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
+            #print(len(bullets))
