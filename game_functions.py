@@ -5,12 +5,14 @@
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
-# @last-modified 2019-08-19T11:40:17.561Z+08:00
+# @last-modified 2019-08-19T13:21:23.244Z+08:00
 #
 
 import sys
 
 import pygame
+
+from alien import Alien
 from bullet import Bullet
 
 
@@ -65,7 +67,7 @@ def fire_bullet(bullets, ai_settings, screen, ship):
         bullets.add(new_bullet)
 
 
-def update_screen(ai_settings, screen, ship, alien, bullets):
+def update_screen(ai_settings, screen, ship, aliens, bullets):
     ''' 更新屏幕上的图像，并切换到新屏幕'''
     # 每次循环时都重绘屏幕
     screen.fill(ai_settings.bg_color)
@@ -74,8 +76,8 @@ def update_screen(ai_settings, screen, ship, alien, bullets):
         bullet.draw_bullet()
     #放置飞船
     ship.blitme()
-    # 放在外星人
-    alien.blitme()
+    # 放置外星人
+    aliens.draw(screen)
     #让最近绘制的屏幕可见
     pygame.display.flip()
 
@@ -89,3 +91,20 @@ def update_bullets(bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
             #print(len(bullets))
+            
+def create_fleet(ai_settings, screen, aliens):
+    ''' 创建外星人群'''
+    # 创建一个外星人，并计算一行可以容纳多少外星人
+    # 外星人间距为外星人宽度
+    alien = Alien(ai_settings, screen)
+    alien_width = alien.rect.width
+    available_space_x = ai_settings.screen_width - 2 * alien_width
+    number_aliens_x = int(available_space_x / (2 * alien_width))
+
+    # 创建第一行外星人
+    for alien_number in range(number_aliens_x):
+        #创建一个外星人并将其加入当前行
+        alien = Alien(ai_settings, screen)
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        aliens.add(alien)
