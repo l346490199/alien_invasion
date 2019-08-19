@@ -1,11 +1,11 @@
-#!/bin/python3/n
+#!/bin/python3
 # -*- coding: utf-8 -*-
 # alien_invasion.py
 # @author 刘秋
 # @email lq@aqiu.info
 # @description 开始的地方
 # @created 2019-08-16T09:18:39.584Z+08:00
-# @last-modified 2019-08-18T13:33:26.254Z+08:00
+# @last-modified 2019-08-19T09:10:43.495Z+08:00
 #
 
 import pygame
