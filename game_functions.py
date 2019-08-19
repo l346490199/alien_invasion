@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
-# @last-modified 2019-08-18T16:00:19.841Z+08:00
+# @last-modified 2019-08-19T11:40:17.561Z+08:00
 #
 
 import sys
@@ -65,7 +65,7 @@ def fire_bullet(bullets, ai_settings, screen, ship):
         bullets.add(new_bullet)
 
 
-def update_screen(ai_settings, screen, ship, bullets):
+def update_screen(ai_settings, screen, ship, alien, bullets):
     ''' 更新屏幕上的图像，并切换到新屏幕'''
     # 每次循环时都重绘屏幕
     screen.fill(ai_settings.bg_color)
@@ -74,6 +74,8 @@ def update_screen(ai_settings, screen, ship, bullets):
         bullet.draw_bullet()
     #放置飞船
     ship.blitme()
+    # 放在外星人
+    alien.blitme()
     #让最近绘制的屏幕可见
     pygame.display.flip()
 
