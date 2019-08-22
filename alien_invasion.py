@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 开始的地方
 # @created 2019-08-16T09:18:39.584Z+08:00
-# @last-modified 2019-08-19T13:23:29.028Z+08:00
+# @last-modified 2019-08-22T11:47:18.800Z+08:00
 #
 
 import pygame
@@ -33,7 +33,7 @@ def run_game():
     bullets = Group()
     # 创建一群外星人实例
     aliens = Group()
-    gf.create_fleet(ai_settings, screen, aliens)
+    gf.create_fleet(ai_settings, screen, aliens, ship)
 
     # 开始游戏的主循环
     while True:

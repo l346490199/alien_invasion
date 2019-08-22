@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 飞船的类
 # @created 2019-08-16T11:21:33.165Z+08:00
-# @last-modified 2019-08-18T09:57:52.507Z+08:00
+# @last-modified 2019-08-22T11:54:18.025Z+08:00
 #
 
 import pygame
@@ -45,6 +45,7 @@ class Ship():
             botto += self.ai_settings.ship_speed_factor
         if self.moving_up:
             botto -= self.ai_settings.ship_speed_factor
+        # 判断和更改坐标
         self.__get_update(botto, center)
 
 

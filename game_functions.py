@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
-# @last-modified 2019-08-19T13:35:26.678Z+08:00
+# @last-modified 2019-08-22T11:46:51.618Z+08:00
 #
 
 import sys
@@ -92,17 +92,21 @@ def update_bullets(bullets):
             bullets.remove(bullet)
             #print(len(bullets))
 
-def create_fleet(ai_settings, screen, aliens):
+def create_fleet(ai_settings, screen, aliens, ship):
     ''' 创建外星人群'''
     # 创建一个外星人，并计算一行可以容纳多少外星人
     # 外星人间距为外星人宽度
     alien = Alien(ai_settings, screen)
+    # 计算一行多少个alien
     number_aliens_x = get_number_aliens_x(ai_settings, alien.rect.width)
+    # 计算有多少列 alien
+    number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.height)
 
-    # 创建第一行外星人
-    for alien_number in range(number_aliens_x):
-        #创建一个外星人并将其加入当前行
-        create_alien(ai_settings, screen, alien_number, aliens)
+    for row_number in range(number_rows):
+        # 创建第一行外星人
+        for alien_number in range(number_aliens_x):
+            #创建一个外星人并将其加入当前行
+            create_alien(ai_settings, screen, alien_number, aliens, row_number)
 
 def get_number_aliens_x(ai_settings, alien_width):
     ''' 计算一行可以容纳多少外星人'''
@@ -110,10 +114,19 @@ def get_number_aliens_x(ai_settings, alien_width):
     number_aliens_x = int(available_space_x / (2 * alien_width))
     return number_aliens_x
 
-def create_alien(ai_settings, screen, alien_number, aliens):
+def create_alien(ai_settings, screen, alien_number, aliens, row_number):
     '''创建一个外星人并将其加入当前行'''
     alien = Alien(ai_settings, screen)
     alien_width = alien.rect.width
     alien.x = alien_width + 2 * alien_width * alien_number
+    # 改横坐标
     alien.rect.x = alien.x
+    #改纵坐标
+    alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number 
     aliens.add(alien)
+
+def get_number_rows(ai_settings, ship_height, alien_height):
+    ''' 计算屏幕可以容纳多少行外星人'''
+    available_space_y = (ai_settings.screen_height - (3 * alien_height) - ship_height)
+    number_rows = int(available_space_y/(2 * alien_height))
+    return number_rows
