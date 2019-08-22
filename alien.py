@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description alien类  外星人
 # @created 2019-08-19T11:25:00.241Z+08:00
-# @last-modified 2019-08-19T13:19:43.688Z+08:00
+# @last-modified 2019-08-22T13:21:14.498Z+08:00
 #
 
 import pygame
@@ -31,6 +31,18 @@ class Alien(Sprite):
         #存储外星人的精准位置
         self.x = float(self.rect.x)
 
+    def update(self):
+        ''' 向右移动外星人'''
+        self.x += (self.ai_settings.alien_speed_factor * self.ai_settings.fleet_direction)
+        self.rect.x = self.x
+
+    def check_edges(self):
+        ''' 判断外星人位于屏幕边缘，就返回TRUE'''
+        screen_rect = self.screen.get_rect()
+        if self.rect.right >= screen_rect.right:
+            return True
+        elif self.rect.left <= 0:
+            return True
 
     def blitme(self):
         ''' 在指定位置绘制外星人'''

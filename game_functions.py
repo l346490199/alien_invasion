@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
-# @last-modified 2019-08-22T11:46:51.618Z+08:00
+# @last-modified 2019-08-22T13:35:04.745Z+08:00
 #
 
 import sys
@@ -82,7 +82,7 @@ def update_screen(ai_settings, screen, ship, aliens, bullets):
     pygame.display.flip()
 
 
-def update_bullets(bullets):
+def update_bullets(bullets, aliens):
     ''' 更新子弹位置，并删除已消失的子弹'''
     # 子弹移动
     bullets.update()
@@ -91,6 +91,7 @@ def update_bullets(bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
             #print(len(bullets))
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
 
 def create_fleet(ai_settings, screen, aliens, ship):
     ''' 创建外星人群'''
@@ -122,7 +123,7 @@ def create_alien(ai_settings, screen, alien_number, aliens, row_number):
     # 改横坐标
     alien.rect.x = alien.x
     #改纵坐标
-    alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number 
+    alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
     aliens.add(alien)
 
 def get_number_rows(ai_settings, ship_height, alien_height):
@@ -130,3 +131,22 @@ def get_number_rows(ai_settings, ship_height, alien_height):
     available_space_y = (ai_settings.screen_height - (3 * alien_height) - ship_height)
     number_rows = int(available_space_y/(2 * alien_height))
     return number_rows
+
+def update_aliens(aliens, ai_settings):
+    ''' 更新外星人群中所有外星人位置'''
+    check_fleet_edges(ai_settings, aliens)
+    aliens.update()
+
+def check_fleet_edges(ai_settings, aliens):
+    ''' 有外星人到达边缘时采取相应措施'''
+    for alien in aliens.sprites():
+        if alien.check_edges():
+            change_fleet_direction(ai_settings, aliens)
+            break
+
+def change_fleet_direction(ai_settings, aliens):
+    ''' 外星人向下移动，变换方向'''
+    for alien in aliens.sprites():
+        alien.rect.y += ai_settings.fleet_drop_speed
+    ai_settings.fleet_direction *= -1
+    

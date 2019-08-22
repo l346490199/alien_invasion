@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 参数设置
 # @created 2019-08-16T10:14:09.086Z+08:00
-# @last-modified 2019-08-19T12:03:07.912Z+08:00
+# @last-modified 2019-08-22T13:36:41.035Z+08:00
 #
 
 
@@ -26,4 +26,8 @@ class Settings():
         self.bullet_color = 60, 60, 60
         # 子弹数量
         self.bullet_allowed = 3
-        
+        # 外星人移动速度
+        self.alien_speed_factor = 1
+        self.fleet_drop_speed = 10
+        # fleet_direction 为1表示向右移动，为-1 表示向左移动
+        self.fleet_direction = 1
