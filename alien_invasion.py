@@ -5,15 +5,17 @@
 # @email lq@aqiu.info
 # @description 开始的地方
 # @created 2019-08-16T09:18:39.584Z+08:00
-# @last-modified 2019-08-23T08:50:30.109Z+08:00
+# @last-modified 2019-08-23T10:32:36.317Z+08:00
 #
 
 import pygame
 from pygame.sprite import Group
 
 import game_functions as gf
+from game_stats import GameStats
 from settings import Settings
 from ship import Ship
+
 
 def run_game():
     ''' 游戏开始了'''
@@ -34,6 +36,8 @@ def run_game():
     # 创建一群外星人实例
     aliens = Group()
     gf.create_fleet(ai_settings, screen, aliens, ship)
+    # 创建一个用于存储游戏统计信息的实例
+    stats = GameStats(ai_settings)
 
     # 开始游戏的主循环
     while True:
@@ -43,7 +47,7 @@ def run_game():
         # 飞船移动
         ship.update()
         gf.update_bullets(bullets, aliens, ai_settings, screen, ship)
-        gf.update_aliens(aliens, ai_settings, ship)
+        gf.update_aliens(aliens, ai_settings, ship, bullets, screen, stats)
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 

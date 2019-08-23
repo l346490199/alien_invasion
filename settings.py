@@ -6,7 +6,7 @@
 # @email lq@aqiu.info
 # @description 参数设置
 # @created 2019-08-16T10:14:09.086Z+08:00
-# @last-modified 2019-08-23T08:40:34.746Z+08:00
+# @last-modified 2019-08-23T10:27:31.659Z+08:00
 '''
 
 class Settings():
@@ -31,3 +31,4 @@ class Settings():
         self.fleet_drop_speed = 10
         # fleet_direction 为1表示向右移动，为-1 表示向左移动
         self.fleet_direction = 1
+        self.ship_limit = 3 

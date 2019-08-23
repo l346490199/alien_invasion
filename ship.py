@@ -6,7 +6,7 @@
 # @email lq@aqiu.info
 # @description 飞船的类
 # @created 2019-08-16T11:21:33.165Z+08:00
-# @last-modified 2019-08-23T08:40:55.589Z+08:00
+# @last-modified 2019-08-23T10:41:30.305Z+08:00
 '''
 
 import pygame
@@ -66,3 +66,8 @@ class Ship():
     def blitme(self):
         '''在指定位置位置飞船'''
         self.screen.blit(self.image, self.rect)
+
+    def center_ship(self):
+        '''让飞船在屏幕中央'''
+        self.rect.centerx = self.screen_rect.centerx
+        self.rect.bottom = self.screen_rect.bottom

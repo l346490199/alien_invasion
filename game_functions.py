@@ -1,17 +1,17 @@
 #!/bin/python3
 #-*- coding: utf-8 -*-
-# game_functions.py
+'''# game_functions.py
 # @author 刘秋
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
-# @last-modified 2019-08-23T08:52:23.615Z+08:00
-#
+# @last-modified 2019-08-23T10:42:39.422Z+08:00
+#'''
 
 import sys
 
 import pygame
-
+from time import sleep
 from alien import Alien
 from bullet import Bullet
 
@@ -98,7 +98,7 @@ def check_bullet_alien_collisions(bullets, aliens, ai_settings, screen, ship):
     ''' 响应子弹和外星人的碰撞'''
     # 删除发生碰撞的子弹和外星人
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
-
+    
     if len(aliens) == 0:
         # 删除现有的子弹并新建一群外星人
         bullets.empty()
@@ -143,13 +143,31 @@ def get_number_rows(ai_settings, ship_height, alien_height):
     number_rows = int(available_space_y/(2 * alien_height))
     return number_rows
 
-def update_aliens(aliens, ai_settings, ship):
+def update_aliens(aliens, ai_settings, ship, bullets, screen, stats):
     ''' 更新外星人群中所有外星人位置'''
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
     # 检测外星人和飞船之间的碰撞
     if pygame.sprite.spritecollideany(ship, aliens):
-        print("Ship hit!!!")
+        ship_hit(aliens, ai_settings, ship, bullets, screen, stats)
+
+def ship_hit(aliens, ai_settings, ship, bullets, screen, stats):
+    ''' 响应被外星人撞到的飞船'''
+    # 将ship_left减一
+    stats.ships_left -= 1
+
+    # 清空外星人列表和子弹列表
+    aliens.empty()
+    bullets.empty()
+
+    #创建一群新的外星人，并将飞船放到屏幕底端中央
+    create_fleet(ai_settings, screen, aliens, ship)
+    ship.center_ship()
+
+    #暂停
+    sleep(0.5)
+
+
 def check_fleet_edges(ai_settings, aliens):
     ''' 有外星人到达边缘时采取相应措施'''
     for alien in aliens.sprites():
