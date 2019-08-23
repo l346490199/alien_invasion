@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
-# @last-modified 2019-08-23T10:57:30.812Z+08:00
+# @last-modified 2019-08-23T11:01:32.498Z+08:00
 #'''
 
 import sys
@@ -166,19 +166,22 @@ def update_aliens(aliens, ai_settings, ship, bullets, screen, stats):
 
 def ship_hit(aliens, ai_settings, ship, bullets, screen, stats):
     ''' 响应被外星人撞到的飞船'''
-    # 将ship_left减一
-    stats.ships_left -= 1
+    if stats.ships_left > 0:
+        # 将ship_left减一
+        stats.ships_left -= 1
 
-    # 清空外星人列表和子弹列表
-    aliens.empty()
-    bullets.empty()
+        # 清空外星人列表和子弹列表
+        aliens.empty()
+        bullets.empty()
 
-    #创建一群新的外星人，并将飞船放到屏幕底端中央
-    create_fleet(ai_settings, screen, aliens, ship)
-    ship.center_ship()
+        #创建一群新的外星人，并将飞船放到屏幕底端中央
+        create_fleet(ai_settings, screen, aliens, ship)
+        ship.center_ship()
 
-    #暂停
-    sleep(0.5)
+        #暂停
+        sleep(0.5)
+    else:
+        stats.game_active = False
 
 
 def check_fleet_edges(ai_settings, aliens):

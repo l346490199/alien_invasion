@@ -6,7 +6,7 @@
 # @email lq@aqiu.info
 # @description 开始的地方
 # @created 2019-08-16T09:18:39.584Z+08:00
-# @last-modified 2019-08-23T10:57:51.663Z+08:00
+# @last-modified 2019-08-23T11:03:07.854Z+08:00
 #'''
 
 import pygame
@@ -44,11 +44,11 @@ def run_game():
     while True:
 
         gf.check_events(ai_settings, screen, ship, bullets)
-
-        # 飞船移动
-        ship.update()
-        gf.update_bullets(bullets, aliens, ai_settings, screen, ship)
-        gf.update_aliens(aliens, ai_settings, ship, bullets, screen, stats)
+        if stats.game_active:
+            # 飞船移动
+            ship.update()
+            gf.update_bullets(bullets, aliens, ai_settings, screen, ship)
+            gf.update_aliens(aliens, ai_settings, ship, bullets, screen, stats)
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 

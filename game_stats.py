@@ -6,7 +6,7 @@
 # @email lq@aqiu.info
 # @description 游戏数据统计
 # @created 2019-08-23T10:23:14.744Z+08:00
-# @last-modified 2019-08-23T10:58:17.638Z+08:00
+# @last-modified 2019-08-23T10:59:51.288Z+08:00
 #'''
 
 
@@ -15,6 +15,7 @@ class GameStats():
     def __init__(self, ai_setting):
         ''' 初始化统计数据'''
         self.ai_setting = ai_setting
+        self.game_active = True
         self.reset_stats()
 
     def reset_stats(self):
