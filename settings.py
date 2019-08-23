@@ -1,13 +1,13 @@
 #!/bin/python3
 #-*- coding: utf-8 -*-
+'''
 # settings.py
 # @author 刘秋
 # @email lq@aqiu.info
 # @description 参数设置
 # @created 2019-08-16T10:14:09.086Z+08:00
-# @last-modified 2019-08-22T13:36:41.035Z+08:00
-#
-
+# @last-modified 2019-08-23T08:40:34.746Z+08:00
+'''
 
 class Settings():
     """"存储《外星人入侵》的所有设置的类 """

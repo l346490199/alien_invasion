@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
-# @last-modified 2019-08-22T13:35:04.745Z+08:00
+# @last-modified 2019-08-23T08:44:58.865Z+08:00
 #
 
 import sys
@@ -82,7 +82,7 @@ def update_screen(ai_settings, screen, ship, aliens, bullets):
     pygame.display.flip()
 
 
-def update_bullets(bullets, aliens):
+def update_bullets(bullets, aliens, ai_settings, screen, ship):
     ''' 更新子弹位置，并删除已消失的子弹'''
     # 子弹移动
     bullets.update()
@@ -91,7 +91,18 @@ def update_bullets(bullets, aliens):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
             #print(len(bullets))
+    # 子弹和外星人碰撞
+    check_bullet_alien_collisions(bullets, aliens, ai_settings, screen, ship)
+
+def check_bullet_alien_collisions(bullets, aliens, ai_settings, screen, ship):
+    ''' 响应子弹和外星人的碰撞'''
+    # 删除发生碰撞的子弹和外星人
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+
+    if len(aliens) == 0:
+        # 删除现有的子弹并新建一群外星人
+        bullets.empty()
+        create_fleet(ai_settings, screen, aliens, ship)
 
 def create_fleet(ai_settings, screen, aliens, ship):
     ''' 创建外星人群'''

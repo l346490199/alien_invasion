@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 开始的地方
 # @created 2019-08-16T09:18:39.584Z+08:00
-# @last-modified 2019-08-22T13:35:00.136Z+08:00
+# @last-modified 2019-08-23T08:36:51.608Z+08:00
 #
 
 import pygame
@@ -42,7 +42,7 @@ def run_game():
 
         # 飞船移动
         ship.update()
-        gf.update_bullets(bullets, aliens)
+        gf.update_bullets(bullets, aliens, ai_settings, screen, ship)
         gf.update_aliens(aliens, ai_settings)
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
