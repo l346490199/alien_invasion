@@ -5,13 +5,14 @@
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
-# @last-modified 2019-08-23T10:42:39.422Z+08:00
+# @last-modified 2019-08-23T10:57:30.812Z+08:00
 #'''
 
 import sys
+from time import sleep
 
 import pygame
-from time import sleep
+
 from alien import Alien
 from bullet import Bullet
 
@@ -59,6 +60,7 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         #按下空格生成一个子弹，并将其加入到编组bullets中
         fire_bullet(bullets, ai_settings, screen, ship)
 
+
 def fire_bullet(bullets, ai_settings, screen, ship):
     ''' 如果还没有达到上限，就发射一颗子弹'''
     #按下空格生成一个子弹，并将其加入到编组bullets中
@@ -94,15 +96,17 @@ def update_bullets(bullets, aliens, ai_settings, screen, ship):
     # 子弹和外星人碰撞
     check_bullet_alien_collisions(bullets, aliens, ai_settings, screen, ship)
 
+
 def check_bullet_alien_collisions(bullets, aliens, ai_settings, screen, ship):
     ''' 响应子弹和外星人的碰撞'''
     # 删除发生碰撞的子弹和外星人
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
-    
+
     if len(aliens) == 0:
         # 删除现有的子弹并新建一群外星人
         bullets.empty()
         create_fleet(ai_settings, screen, aliens, ship)
+
 
 def create_fleet(ai_settings, screen, aliens, ship):
     ''' 创建外星人群'''
@@ -112,7 +116,8 @@ def create_fleet(ai_settings, screen, aliens, ship):
     # 计算一行多少个alien
     number_aliens_x = get_number_aliens_x(ai_settings, alien.rect.width)
     # 计算有多少列 alien
-    number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.height)
+    number_rows = get_number_rows(ai_settings, ship.rect.height,
+                                  alien.rect.height)
 
     for row_number in range(number_rows):
         # 创建第一行外星人
@@ -120,11 +125,13 @@ def create_fleet(ai_settings, screen, aliens, ship):
             #创建一个外星人并将其加入当前行
             create_alien(ai_settings, screen, alien_number, aliens, row_number)
 
+
 def get_number_aliens_x(ai_settings, alien_width):
     ''' 计算一行可以容纳多少外星人'''
     available_space_x = ai_settings.screen_width - 2 * alien_width
     number_aliens_x = int(available_space_x / (2 * alien_width))
     return number_aliens_x
+
 
 def create_alien(ai_settings, screen, alien_number, aliens, row_number):
     '''创建一个外星人并将其加入当前行'''
@@ -137,11 +144,14 @@ def create_alien(ai_settings, screen, alien_number, aliens, row_number):
     alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
     aliens.add(alien)
 
+
 def get_number_rows(ai_settings, ship_height, alien_height):
     ''' 计算屏幕可以容纳多少行外星人'''
-    available_space_y = (ai_settings.screen_height - (3 * alien_height) - ship_height)
-    number_rows = int(available_space_y/(2 * alien_height))
+    available_space_y = (ai_settings.screen_height - (3 * alien_height) -
+                         ship_height)
+    number_rows = int(available_space_y / (2 * alien_height))
     return number_rows
+
 
 def update_aliens(aliens, ai_settings, ship, bullets, screen, stats):
     ''' 更新外星人群中所有外星人位置'''
@@ -150,6 +160,9 @@ def update_aliens(aliens, ai_settings, ship, bullets, screen, stats):
     # 检测外星人和飞船之间的碰撞
     if pygame.sprite.spritecollideany(ship, aliens):
         ship_hit(aliens, ai_settings, ship, bullets, screen, stats)
+    # 检查外星人是否到达屏幕底部
+    check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets)
+
 
 def ship_hit(aliens, ai_settings, ship, bullets, screen, stats):
     ''' 响应被外星人撞到的飞船'''
@@ -175,9 +188,19 @@ def check_fleet_edges(ai_settings, aliens):
             change_fleet_direction(ai_settings, aliens)
             break
 
+
 def change_fleet_direction(ai_settings, aliens):
     ''' 外星人向下移动，变换方向'''
     for alien in aliens.sprites():
         alien.rect.y += ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *= -1
-    
+
+
+def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
+    ''' 检查外星人是否到达屏幕底部'''
+    screen_rect = screen.get_rect()
+    for alien in aliens.sprites():
+        if alien.rect.bottom >= screen_rect.bottom:
+            # 像飞船被撞击一样处理
+            ship_hit(aliens, ai_settings, ship, bullets, screen, stats)
+            break
