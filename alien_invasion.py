@@ -20,7 +20,7 @@ from ship import Ship
 
 
 def run_game():
-    ''' 游戏开始了'''
+    """ 游戏开始了"""
     # 初始化游戏并创建一个屏幕对象
     pygame.init()
     # 实例一个设置参数
@@ -56,4 +56,5 @@ def run_game():
         gf.update_screen(ai_settings, screen, ship, aliens, bullets, stats, play_button)
 
 
-run_game()
+if __name__ == '__main__':
+    run_game()
