@@ -5,7 +5,7 @@
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
-# @last-modified 2019-08-23T08:44:58.865Z+08:00
+# @last-modified 2019-08-23T08:52:23.615Z+08:00
 #
 
 import sys
@@ -143,11 +143,13 @@ def get_number_rows(ai_settings, ship_height, alien_height):
     number_rows = int(available_space_y/(2 * alien_height))
     return number_rows
 
-def update_aliens(aliens, ai_settings):
+def update_aliens(aliens, ai_settings, ship):
     ''' 更新外星人群中所有外星人位置'''
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
-
+    # 检测外星人和飞船之间的碰撞
+    if pygame.sprite.spritecollideany(ship, aliens):
+        print("Ship hit!!!")
 def check_fleet_edges(ai_settings, aliens):
     ''' 有外星人到达边缘时采取相应措施'''
     for alien in aliens.sprites():
