@@ -13,6 +13,7 @@ import pygame
 from pygame.sprite import Group
 
 import game_functions as gf
+from button import Button
 from game_stats import GameStats
 from settings import Settings
 from ship import Ship
@@ -20,7 +21,7 @@ from ship import Ship
 
 def run_game():
     ''' 游戏开始了'''
-    #初始化游戏并创建一个屏幕对象
+    # 初始化游戏并创建一个屏幕对象
     pygame.init()
     # 实例一个设置参数
     ai_settings = Settings()
@@ -29,6 +30,9 @@ def run_game():
         (ai_settings.screen_width, ai_settings.screen_height))
     # 屏幕名称
     pygame.display.set_caption("Alien Invasion")
+
+    # 创建Play按钮实例
+    play_button = Button(ai_settings, screen, "play")
 
     # 创建一艘飞船
     ship = Ship(ai_settings, screen)
@@ -43,13 +47,13 @@ def run_game():
     # 开始游戏的主循环
     while True:
 
-        gf.check_events(ai_settings, screen, ship, bullets)
+        gf.check_events(ai_settings, screen, ship, bullets, stats, play_button)
         if stats.game_active:
             # 飞船移动
             ship.update()
             gf.update_bullets(bullets, aliens, ai_settings, screen, ship)
             gf.update_aliens(aliens, ai_settings, ship, bullets, screen, stats)
-        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets, stats, play_button)
 
 
 run_game()

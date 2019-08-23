@@ -1,5 +1,5 @@
 #!/bin/python3
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 '''# game_functions.py
 # @author 刘秋
 # @email lq@aqiu.info
@@ -17,12 +17,15 @@ from alien import Alien
 from bullet import Bullet
 
 
-def check_events(ai_settings, screen, ship, bullets):
-    '''响应按键和鼠标事件'''
+def check_events(ai_settings, screen, ship, bullets, stats, play_button):
+    '''响应按键和鼠标事件
+    :param stats:
+    :param play_button:
+    '''
     # 监视键盘和鼠标 事件
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            #结束 关闭界面  参数 0   不写报错
+            # 结束 关闭界面  参数 0   不写报错
             sys.exit(0)
         # 判断按键按下
         elif event.type == pygame.KEYDOWN:
@@ -30,6 +33,15 @@ def check_events(ai_settings, screen, ship, bullets):
         # 判断 按键松开
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            check_play_button(stats, play_button, mouse_x, mouse_y)
+
+
+def check_play_button(stats, play_button, mouse_x, mouse_y):
+    """"""
+    if play_button.rect.collidepoint(mouse_x, mouse_y):
+        stats.game_active = True
 
 
 def check_keyup_events(event, ship):
@@ -57,30 +69,32 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
     if event.key == pygame.K_DOWN:
         ship.moving_down = True
     if event.key == pygame.K_SPACE:
-        #按下空格生成一个子弹，并将其加入到编组bullets中
+        # 按下空格生成一个子弹，并将其加入到编组bullets中
         fire_bullet(bullets, ai_settings, screen, ship)
 
 
 def fire_bullet(bullets, ai_settings, screen, ship):
     ''' 如果还没有达到上限，就发射一颗子弹'''
-    #按下空格生成一个子弹，并将其加入到编组bullets中
+    # 按下空格生成一个子弹，并将其加入到编组bullets中
     if len(bullets) < ai_settings.bullet_allowed:
         new_bullet = Bullet(ai_settings, screen, ship)
         bullets.add(new_bullet)
 
 
-def update_screen(ai_settings, screen, ship, aliens, bullets):
-    ''' 更新屏幕上的图像，并切换到新屏幕'''
+def update_screen(ai_settings, screen, ship, aliens, bullets, stats, play_button):
+    """ 更新屏幕上的图像，并切换到新屏幕    """
     # 每次循环时都重绘屏幕
     screen.fill(ai_settings.bg_color)
     # 在飞船和外星人后面重绘所有子弹
     for bullet in bullets.sprites():
         bullet.draw_bullet()
-    #放置飞船
+    # 放置飞船
     ship.blitme()
     # 放置外星人
     aliens.draw(screen)
-    #让最近绘制的屏幕可见
+    if not stats.game_active:
+        play_button.draw_button()
+    # 让最近绘制的屏幕可见
     pygame.display.flip()
 
 
@@ -92,7 +106,7 @@ def update_bullets(bullets, aliens, ai_settings, screen, ship):
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
-            #print(len(bullets))
+            # print(len(bullets))
     # 子弹和外星人碰撞
     check_bullet_alien_collisions(bullets, aliens, ai_settings, screen, ship)
 
@@ -122,7 +136,7 @@ def create_fleet(ai_settings, screen, aliens, ship):
     for row_number in range(number_rows):
         # 创建第一行外星人
         for alien_number in range(number_aliens_x):
-            #创建一个外星人并将其加入当前行
+            # 创建一个外星人并将其加入当前行
             create_alien(ai_settings, screen, alien_number, aliens, row_number)
 
 
@@ -140,7 +154,7 @@ def create_alien(ai_settings, screen, alien_number, aliens, row_number):
     alien.x = alien_width + 2 * alien_width * alien_number
     # 改横坐标
     alien.rect.x = alien.x
-    #改纵坐标
+    # 改纵坐标
     alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
     aliens.add(alien)
 
@@ -174,11 +188,11 @@ def ship_hit(aliens, ai_settings, ship, bullets, screen, stats):
         aliens.empty()
         bullets.empty()
 
-        #创建一群新的外星人，并将飞船放到屏幕底端中央
+        # 创建一群新的外星人，并将飞船放到屏幕底端中央
         create_fleet(ai_settings, screen, aliens, ship)
         ship.center_ship()
 
-        #暂停
+        # 暂停
         sleep(0.5)
     else:
         stats.game_active = False
