@@ -145,10 +145,11 @@ def check_bullet_alien_collisions(bullets, aliens, ai_settings, screen, ship, st
     # 删除发生碰撞的子弹和外星人
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
     if collisions:
-        # 消灭外星人 得分加分
-        stats.score += ai_settings.alien_points
-        # 得分牌 刷新
-        sb.prep_score()
+        for aliens in collisions.values():
+            # 消灭外星人 得分加分
+            stats.score += ai_settings.alien_points * len(aliens)
+            # 得分牌 刷新
+            sb.prep_score()
 
     if len(aliens) == 0:
         # 删除现有的子弹并新建一群外星人
