@@ -1,12 +1,12 @@
 #!/bin/python3
-#-*- coding: utf-8 -*-
-# game_functions.py
+# -*- coding: utf-8 -*-
+"""# game_functions.py
 # @author 刘秋
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
 # @last-modified 2019-08-23T11:01:32.498Z+08:00
-#
+#"""
 
 import sys
 from time import sleep

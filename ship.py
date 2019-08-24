@@ -5,16 +5,19 @@
 # @email lq@aqiu.info
 # @description 飞船的类
 # @created 2019-08-16T11:21:33.165Z+08:00
-# @last-modified 2019-08-18T09:57:52.507Z+08:00
-#
+# @last-modified 2019-08-23T10:41:30.305Z+08:00
+
 
 import pygame
+from pygame.sprite import Sprite
 
 
-class Ship():
-    '''飞船类'''
-    def __init__(self, ai_settings, screen):
-        '''初始化飞船 并设置其初始位置'''
+class Ship(Sprite):
+    """飞船类"""
+
+    def __init__(self, ai_settings, screen, ):
+        """初始化飞船 并设置其初始位置"""
+        super().__init__()
         self.screen = screen
         self.ai_settings = ai_settings
 
@@ -34,7 +37,7 @@ class Ship():
         self.moving_down = False
 
     def update(self):
-        '''根据移动标识调整飞船位置-计算'''
+        """根据移动标识调整飞船位置-计算"""
         center = float(self.rect.centerx)
         botto = float(self.rect.bottom)
         if self.moving_right:
@@ -45,11 +48,12 @@ class Ship():
             botto += self.ai_settings.ship_speed_factor
         if self.moving_up:
             botto -= self.ai_settings.ship_speed_factor
+        # 判断和更改坐标
         self.__get_update(botto, center)
 
 
     def __get_update(self, botto, center):
-        ''' 修改位置条件'''
+        """ 修改位置条件"""
         if center > self.ai_settings.screen_width:
             center = 1
         if center < 0:
@@ -62,5 +66,10 @@ class Ship():
         self.rect.centerx = center
 
     def blitme(self):
-        '''在指定位置位置飞船'''
+        """在指定位置位置飞船"""
         self.screen.blit(self.image, self.rect)
+
+    def center_ship(self):
+        """让飞船在屏幕中央"""
+        self.rect.centerx = self.screen_rect.centerx
+        self.rect.bottom = self.screen_rect.bottom
