@@ -64,6 +64,8 @@ def start_game(ai_settings, aliens, bullets, screen, ship, stats):
     bullets.empty()
     # 创建一群新的外星人，并让飞船居中
     create_fleet(ai_settings, screen, aliens, ship)
+    # 飞船在初始位置
+    ship.center_ship()
 
 
 def check_keyup_events(event, ship, ai_settings, aliens, bullets, screen, stats):
