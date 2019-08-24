@@ -25,8 +25,7 @@ def check_events(ai_settings, screen, ship, bullets, stats, play_button, aliens,
     for event in pygame.event.get():
         button_clicked = False
         if event.type == pygame.QUIT:
-            # 结束 关闭界面  参数 0   不写报错
-            sys.exit(0)
+            quit_game()
         # 判断按键按下
         elif event.type == pygame.KEYDOWN:
             check_keydown_events(event, ai_settings, screen, ship, bullets, play_button)
@@ -36,8 +35,15 @@ def check_events(ai_settings, screen, ship, bullets, stats, play_button, aliens,
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
+        # 判断是否可以重新开始一局游戏
         if (button_clicked or play_button.key_t) and not stats.game_active:
             check_play_button(stats, aliens, bullets, ai_settings, screen, ship, sb)
+
+
+def quit_game():
+    """结束游戏"""
+    # 结束 关闭界面  参数 0   不写报错
+    sys.exit(0)
 
 
 def check_play_button(stats, aliens, bullets, ai_settings, screen, ship, sb):
@@ -52,17 +58,14 @@ def check_play_button(stats, aliens, bullets, ai_settings, screen, ship, sb):
     # 重置游戏统计信息
     stats.reset_stats()
     stats.game_active = True
-    # 重置计分牌信息
-    sb.prep_level()
-    sb.prep_high_score()
-    sb.prep_score()
 
     initialization_ship_aliens_bullets(ai_settings, aliens, bullets, screen, ship, sb)
 
 
 def initialization_ship_aliens_bullets(ai_settings, aliens, bullets, screen, ship, sb):
+    # 重置计分牌信息
     # 更新剩余飞船数图形
-    sb.prep_ships()
+    sb.prep_images()
     # 清空外星人列表和子弹列表
     aliens.empty()
     bullets.empty()
@@ -85,7 +88,7 @@ def check_keyup_events(event, ship, play_button):
     if event.key == pygame.K_DOWN:
         ship.moving_down = False
     if event.key == pygame.K_q:
-        sys.exit(0)
+        quit_game()
     if event.key == pygame.K_t:
         play_button.key_t = False
 
@@ -171,15 +174,20 @@ def check_bullet_alien_collisions(bullets, aliens, ai_settings, screen, ship, st
         check_high_score(stats, sb)
 
     if len(aliens) == 0:
-        # 删除现有的子弹并新建一群外星人
-        bullets.empty()
-        # 提速
-        ai_settings.increase_speed()
-        # 提升等级
-        stats.level += 1
-        sb.prep_level()
-        # 创建新的外星人
-        create_fleet(ai_settings, screen, aliens, ship)
+        start_new_level(ai_settings, aliens, bullets, sb, screen, ship, stats)
+
+
+def start_new_level(ai_settings, aliens, bullets, sb, screen, ship, stats):
+    """ 升级删除剩余的子弹，创建新的外星人"""
+    # 删除现有的子弹并新建一群外星人
+    bullets.empty()
+    # 提速
+    ai_settings.increase_speed()
+    # 提升等级
+    stats.level += 1
+    sb.prep_level()
+    # 创建新的外星人
+    create_fleet(ai_settings, screen, aliens, ship)
 
 
 def create_fleet(ai_settings, screen, aliens, ship):
@@ -242,7 +250,6 @@ def update_aliens(aliens, ai_settings, ship, bullets, screen, stats, sb):
 
 def ship_hit(aliens, ai_settings, ship, bullets, screen, stats, sb):
     """ 响应被外星人撞到的飞船
-    :param sb:
     """
     if stats.ships_left > 0:
         # 将ship_left减一
