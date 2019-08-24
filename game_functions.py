@@ -1,12 +1,12 @@
 #!/bin/python3
 # -*- coding: utf-8 -*-
-"""# game_functions.py
+# game_functions.py
 # @author 刘秋
 # @email lq@aqiu.info
 # @description 补充invasion
 # @created 2019-08-16T11:47:13.765Z+08:00
 # @last-modified 2019-08-23T11:01:32.498Z+08:00
-#"""
+#
 
 import sys
 from time import sleep
@@ -100,9 +100,9 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets, play_button)
         ship.moving_right = True
     if event.key == pygame.K_LEFT:
         ship.moving_left = True
-    if event.key == pygame.K_UP:
+    if event.key == pygame.K_UP and False:
         ship.moving_up = True
-    if event.key == pygame.K_DOWN:
+    if event.key == pygame.K_DOWN and False:
         ship.moving_down = True
     if event.key == pygame.K_SPACE:
         # 按下空格生成一个子弹，并将其加入到编组bullets中
@@ -237,7 +237,6 @@ def get_number_rows(ai_settings, ship_height, alien_height):
 
 def update_aliens(aliens, ai_settings, ship, bullets, screen, stats, sb):
     """ 更新外星人群中所有外星人位置
-    :param sb:
     """
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
@@ -281,7 +280,6 @@ def change_fleet_direction(ai_settings, aliens):
 
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets, sb):
     """ 检查外星人是否到达屏幕底部
-    :param sb:
     """
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():

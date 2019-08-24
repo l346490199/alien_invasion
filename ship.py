@@ -1,5 +1,5 @@
 #!/bin/python3
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # ship.py
 # @author 刘秋
 # @email lq@aqiu.info
@@ -30,7 +30,7 @@ class Ship(Sprite):
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
 
-        #移动标志
+        # 移动标志
         self.moving_right = False
         self.moving_left = False
         self.moving_up = False
@@ -50,7 +50,6 @@ class Ship(Sprite):
             botto -= self.ai_settings.ship_speed_factor
         # 判断和更改坐标
         self.__get_update(botto, center)
-
 
     def __get_update(self, botto, center):
         """ 修改位置条件"""

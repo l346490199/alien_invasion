@@ -1,13 +1,12 @@
 #!/bin/python3
 # -*- coding: utf-8 -*-
-"""
 # alien_invasion.py
 # @author 刘秋
 # @email lq@aqiu.info
 # @description 开始的地方
 # @created 2019-08-16T09:18:39.584Z+08:00
 # @last-modified 2019-08-23T11:03:07.854Z+08:00
-#"""
+#
 
 import pygame
 from pygame.sprite import Group

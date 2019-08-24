@@ -1,9 +1,7 @@
 #!/bin/python3
 # -*- coding: utf-8 -*-
-'''
 # @author 刘秋
 # @email lq@aqiu.info
-'''
 
 import pygame
 from pygame.sprite import Group
