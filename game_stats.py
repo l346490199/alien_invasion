@@ -1,5 +1,5 @@
 #!/bin/python3
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 '''
 # game_stats.py
 # @author 刘秋
@@ -12,6 +12,7 @@
 
 class GameStats():
     """" 跟踪游戏的统计数据"""
+
     def __init__(self, ai_setting):
         ''' 初始化统计数据'''
         self.ai_setting = ai_setting
@@ -21,7 +22,6 @@ class GameStats():
         # 最高分
         self.high_score = 0
         # 等级
-
 
     def reset_stats(self):
         """ 初始化在游戏运行期间可能变化的统计信息"""

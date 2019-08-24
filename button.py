@@ -27,7 +27,7 @@ class Button():
         self.prep_msg(msg)
 
         # T 键按下标示
-        self.t_stats = False
+        self.key_t = False
 
     def prep_msg(self, msg):
         """ 将msg渲染为图像，并使其在按钮上居中"""

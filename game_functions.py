@@ -23,46 +23,39 @@ def check_events(ai_settings, screen, ship, bullets, stats, play_button, aliens,
     """
     # 监视键盘和鼠标 事件
     for event in pygame.event.get():
+        button_clicked = False
         if event.type == pygame.QUIT:
             # 结束 关闭界面  参数 0   不写报错
             sys.exit(0)
         # 判断按键按下
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ai_settings, screen, ship, bullets)
+            check_keydown_events(event, ai_settings, screen, ship, bullets, play_button)
         # 判断 按键松开
         elif event.type == pygame.KEYUP:
-            check_keyup_events(event, ship, ai_settings, aliens, bullets, screen, stats)
+            check_keyup_events(event, ship, play_button)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(stats, play_button, mouse_x, mouse_y, aliens, bullets, ai_settings, screen, ship, sb)
+            button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
+        if (button_clicked or play_button.key_t) and not stats.game_active:
+            check_play_button(stats, aliens, bullets, ai_settings, screen, ship, sb)
 
 
-def check_play_button(stats, play_button, mouse_x, mouse_y, aliens, bullets, ai_settings, screen, ship, sb):
+def check_play_button(stats, aliens, bullets, ai_settings, screen, ship, sb):
     """
     在玩家单机Play按钮时开始游戏
     """
-    button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
-    if button_clicked and not stats.game_active:
-        # 隐藏鼠标
-        pygame.mouse.set_visible(False)
-        # 重置计分牌信息
-        sb.prep_level()
-        sb.prep_high_score()
-        sb.prep_score()
-        # 重新开始游戏
-        start_game(ai_settings, aliens, bullets, screen, ship, stats)
+    # 隐藏鼠标
+    pygame.mouse.set_visible(False)
 
-
-def start_game(ai_settings, aliens, bullets, screen, ship, stats):
-    """
-
-    启动游戏
-    """
     # 重置游戏设置
     ai_settings.initialize_dynamic_settings()
     # 重置游戏统计信息
     stats.reset_stats()
     stats.game_active = True
+    # 重置计分牌信息
+    sb.prep_level()
+    sb.prep_high_score()
+    sb.prep_score()
 
     initialization_ship_aliens_bullets(ai_settings, aliens, bullets, screen, ship)
 
@@ -77,7 +70,7 @@ def initialization_ship_aliens_bullets(ai_settings, aliens, bullets, screen, shi
     ship.center_ship()
 
 
-def check_keyup_events(event, ship, ai_settings, aliens, bullets, screen, stats):
+def check_keyup_events(event, ship, play_button):
     """
     当按键松开时
     """
@@ -91,12 +84,13 @@ def check_keyup_events(event, ship, ai_settings, aliens, bullets, screen, stats)
         ship.moving_down = False
     if event.key == pygame.K_q:
         sys.exit(0)
-    if event.key == pygame.K_t and not stats.game_active:
-        start_game(ai_settings, aliens, bullets, screen, ship, stats)
+    if event.key == pygame.K_t:
+        play_button.key_t = False
 
 
-def check_keydown_events(event, ai_settings, screen, ship, bullets):
-    """当按键按下时"""
+def check_keydown_events(event, ai_settings, screen, ship, bullets, play_button):
+    """当按键按下时
+    """
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
     if event.key == pygame.K_LEFT:
@@ -108,6 +102,8 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
     if event.key == pygame.K_SPACE:
         # 按下空格生成一个子弹，并将其加入到编组bullets中
         fire_bullet(bullets, ai_settings, screen, ship)
+    if event.key == pygame.K_t:
+        play_button.key_t = True
 
 
 def fire_bullet(bullets, ai_settings, screen, ship):
