@@ -17,7 +17,7 @@ from alien import Alien
 from bullet import Bullet
 
 
-def check_events(ai_settings, screen, ship, bullets, stats, play_button, aliens):
+def check_events(ai_settings, screen, ship, bullets, stats, play_button, aliens, sb):
     """
     响应按键和鼠标事件
     """
@@ -34,10 +34,10 @@ def check_events(ai_settings, screen, ship, bullets, stats, play_button, aliens)
             check_keyup_events(event, ship, ai_settings, aliens, bullets, screen, stats)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(stats, play_button, mouse_x, mouse_y, aliens, bullets, ai_settings, screen, ship)
+            check_play_button(stats, play_button, mouse_x, mouse_y, aliens, bullets, ai_settings, screen, ship, sb)
 
 
-def check_play_button(stats, play_button, mouse_x, mouse_y, aliens, bullets, ai_settings, screen, ship):
+def check_play_button(stats, play_button, mouse_x, mouse_y, aliens, bullets, ai_settings, screen, ship, sb):
     """
     在玩家单机Play按钮时开始游戏
     """
@@ -45,6 +45,10 @@ def check_play_button(stats, play_button, mouse_x, mouse_y, aliens, bullets, ai_
     if button_clicked and not stats.game_active:
         # 隐藏鼠标
         pygame.mouse.set_visible(False)
+        # 重置计分牌信息
+        sb.prep_level()
+        sb.prep_high_score()
+        sb.prep_score()
         # 重新开始游戏
         start_game(ai_settings, aliens, bullets, screen, ship, stats)
 
@@ -59,6 +63,11 @@ def start_game(ai_settings, aliens, bullets, screen, ship, stats):
     # 重置游戏统计信息
     stats.reset_stats()
     stats.game_active = True
+
+    initialization_ship_aliens_bullets(ai_settings, aliens, bullets, screen, ship)
+
+
+def initialization_ship_aliens_bullets(ai_settings, aliens, bullets, screen, ship):
     # 清空外星人列表和子弹列表
     aliens.empty()
     bullets.empty()
@@ -166,7 +175,12 @@ def check_bullet_alien_collisions(bullets, aliens, ai_settings, screen, ship, st
     if len(aliens) == 0:
         # 删除现有的子弹并新建一群外星人
         bullets.empty()
+        # 提速
         ai_settings.increase_speed()
+        # 提升等级
+        stats.level += 1
+        sb.prep_level()
+        # 创建新的外星人
         create_fleet(ai_settings, screen, aliens, ship)
 
 
@@ -231,14 +245,8 @@ def ship_hit(aliens, ai_settings, ship, bullets, screen, stats):
     if stats.ships_left > 0:
         # 将ship_left减一
         stats.ships_left -= 1
-
-        # 清空外星人列表和子弹列表
-        aliens.empty()
-        bullets.empty()
-
-        # 创建一群新的外星人，并将飞船放到屏幕底端中央
-        create_fleet(ai_settings, screen, aliens, ship)
-        ship.center_ship()
+        # 初始化飞船、外星人和子弹
+        initialization_ship_aliens_bullets(ai_settings, aliens, bullets, screen, ship)
 
         # 暂停
         sleep(0.5)

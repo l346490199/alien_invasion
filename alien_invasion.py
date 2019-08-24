@@ -48,7 +48,7 @@ def run_game():
     # 开始游戏的主循环
     while True:
 
-        gf.check_events(ai_settings, screen, ship, bullets, stats, play_button, aliens)
+        gf.check_events(ai_settings, screen, ship, bullets, stats, play_button, aliens, sb)
         if stats.game_active:
             # 飞船移动
             ship.update()

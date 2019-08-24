@@ -22,9 +22,10 @@ class Scoreboard():
         self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 48)
 
-        # 准备包含最高分和初始得分图形
+        # 准备包含等级、最高分和初始得分图形
         self.prep_score()
         self.prep_high_score()
+        self.prep_level()
 
     def prep_score(self):
         """将得分转换未一副渲染的图像"""
@@ -42,6 +43,7 @@ class Scoreboard():
         """ 在屏幕上显示得分"""
         self.screen.blit(self.score_image, self.score_rect)
         self.screen.blit(self.high_score_image, self.high_score_rect)
+        self.screen.blit(self.level_image, self.level_rect)
 
     def prep_high_score(self):
         """ 将最高得分转换为渲染的图像"""
@@ -55,3 +57,13 @@ class Scoreboard():
         self.high_score_rect = self.high_score_image.get_rect()
         self.high_score_rect.centerx = self.screen_rect.centerx
         self.high_score_rect.top = self.score_rect.top
+
+    def prep_level(self):
+        """将等级转换为渲染的图像"""
+        self.level_image = self.font.render(str(self.stats.level), True,
+                                            self.text_color, self.ai_settings)
+
+        # 将等级放在得分的下面
+        self.level_rect = self.level_image.get_rect()
+        self.level_rect.right = self.score_rect.right
+        self.level_rect.top = self.score_rect.bottom + 10

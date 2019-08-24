@@ -26,6 +26,9 @@ class Button():
         # 按钮的标签只需创建一次
         self.prep_msg(msg)
 
+        # T 键按下标示
+        self.t_stats = False
+
     def prep_msg(self, msg):
         """ 将msg渲染为图像，并使其在按钮上居中"""
         self.msg_image = self.font.render(msg, True, self.text_color,
