@@ -107,17 +107,20 @@ def fire_bullet(bullets, ai_settings, screen, ship):
         bullets.add(new_bullet)
 
 
-def update_screen(ai_settings, screen, ship, aliens, bullets, stats, play_button):
-    """ 更新屏幕上的图像，并切换到新屏幕    """
+def update_screen(ai_settings, screen, ship, aliens, bullets, stats, play_button, sb):
+    """ 更新屏幕上的图像，并切换到新屏幕  """
     # 每次循环时都重绘屏幕
     screen.fill(ai_settings.bg_color)
-    # 在飞船和外星人后面重绘所有子弹
-    for bullet in bullets.sprites():
-        bullet.draw_bullet()
     # 放置飞船
     ship.blitme()
     # 放置外星人
     aliens.draw(screen)
+    # 在飞船和外星人后面重绘所有子弹
+    for bullet in bullets.sprites():
+        bullet.draw_bullet()
+    # 显示得分
+    sb.show_score()
+    # 如果游戏处在非活动状态，就显示Play按钮
     if not stats.game_active:
         play_button.draw_button()
     # 让最近绘制的屏幕可见

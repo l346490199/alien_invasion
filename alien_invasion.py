@@ -1,13 +1,13 @@
 #!/bin/python3
 # -*- coding: utf-8 -*-
-'''
+"""
 # alien_invasion.py
 # @author 刘秋
 # @email lq@aqiu.info
 # @description 开始的地方
 # @created 2019-08-16T09:18:39.584Z+08:00
 # @last-modified 2019-08-23T11:03:07.854Z+08:00
-#'''
+#"""
 
 import pygame
 from pygame.sprite import Group
@@ -15,6 +15,7 @@ from pygame.sprite import Group
 import game_functions as gf
 from button import Button
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from settings import Settings
 from ship import Ship
 
@@ -41,9 +42,9 @@ def run_game():
     # 创建一群外星人实例
     aliens = Group()
     gf.create_fleet(ai_settings, screen, aliens, ship)
-    # 创建一个用于存储游戏统计信息的实例
+    # 创建一个用于存储游戏统计信息的实例,并创建得分牌
     stats = GameStats(ai_settings)
-
+    sb = Scoreboard(ai_settings, screen, stats)
     # 开始游戏的主循环
     while True:
 
@@ -53,7 +54,7 @@ def run_game():
             ship.update()
             gf.update_bullets(bullets, aliens, ai_settings, screen, ship)
             gf.update_aliens(aliens, ai_settings, ship, bullets, screen, stats)
-        gf.update_screen(ai_settings, screen, ship, aliens, bullets, stats, play_button)
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets, stats, play_button, sb)
 
 
 if __name__ == '__main__':
