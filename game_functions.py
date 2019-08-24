@@ -140,8 +140,16 @@ def update_bullets(bullets, aliens, ai_settings, screen, ship, stats, sb):
     check_bullet_alien_collisions(bullets, aliens, ai_settings, screen, ship, stats, sb)
 
 
+def check_high_score(stats, sb):
+    """检查是否诞生了新的最高分"""
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        sb.prep_high_score()
+
+
 def check_bullet_alien_collisions(bullets, aliens, ai_settings, screen, ship, stats, sb):
-    """ 响应子弹和外星人的碰撞    """
+    """ 响应子弹和外星人的碰撞
+    """
     # 删除发生碰撞的子弹和外星人
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
     if collisions:
@@ -150,6 +158,7 @@ def check_bullet_alien_collisions(bullets, aliens, ai_settings, screen, ship, st
             stats.score += ai_settings.alien_points * len(aliens)
             # 得分牌 刷新
             sb.prep_score()
+        check_high_score(stats, sb)
 
     if len(aliens) == 0:
         # 删除现有的子弹并新建一群外星人
