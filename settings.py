@@ -21,7 +21,7 @@ class Settings():
         self.bg_color = (230, 230, 230)
 
         # 子弹设置
-        self.bullet_width = 3000
+        self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = 60, 60, 60
         # 子弹数量
@@ -33,6 +33,8 @@ class Settings():
 
         self.initialize_dynamic_settings()
         self.speedup_scale = 1.1
+        # 计分
+        self.alien_points = 50
 
     def initialize_dynamic_settings(self):
         """初始化随游戏进行而变化的设置"""
